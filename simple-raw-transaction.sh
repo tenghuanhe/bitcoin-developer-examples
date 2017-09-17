@@ -12,7 +12,7 @@ UTXOS=`$CLI listunspent`
 # index number (vout) of that coinbase UTXO to variables.
 # Node: use double quote when reference $UTXOS since it contains multiple
 # lines.
-UTXO=`echo "$UTXOS" | jq '.[0]'`
+UTXO=`echo "$UTXOS" | jq '.[] | select (.amount == 50.00000000)'`
 UTXO_TXID=`echo "$UTXO" | jq '.txid'`
 UTXO_VOUT=`echo "$UTXO" | jq '.vout'`
 

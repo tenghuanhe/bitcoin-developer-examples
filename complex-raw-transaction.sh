@@ -10,8 +10,8 @@ UTXOS=`$CLI listunspent`
 # Create a transaction with two inputs and two outputs.
 
 # For our two inputs, we select two UTXOs
-UTXO1=`echo "$UTXOS" | jq '.[3]'`
-UTXO2=`echo "$UTXOS" | jq '.[1]'`
+UTXO1=`echo "$UTXOS" | jq '.[] | select (.amount == 50.00000000)'`
+UTXO2=`echo "$UTXOS" | jq '.[] | select ((.amount > 39) and (.amount < 40))'`
 
 UTXO1_TXID=`echo "$UTXO1" | jq '.txid' | tr -d '"'`
 UTXO1_VOUT=`echo "$UTXO1" | jq '.vout'`

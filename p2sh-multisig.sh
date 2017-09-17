@@ -37,9 +37,10 @@ TX_BODY=`$CLI getrawtransaction $UTXO_TXID 1`
 
 # We choose one of the outputs to be out UTXO and get its output index number (
 # vout) and pubkey script (scriptPubKey).
-UTXO_VOUT=0
 UTXO_VOUTS_BODY=`echo "$TX_BODY" | jq '.vout'`
-UTXO_OUTPUT_SCRIPT=`echo "$UTXO_VOUTS_BODY" | jq '.[0].scriptPubKey.hex' | tr -d '"'`
+UTXO_VOUT_BODY=`echo "$UTXO_VOUTS_BODY" | jq '.[] | select (.value == 10)'`
+UTXO_VOUT=`echo "$UTXO_VOUT_BODY" | jq '.n'`
+UTXO_OUTPUT_SCRIPT=`echo "$UTXO_VOUT_BODY" | jq '.scriptPubKey.hex' | tr -d '"'`
 
 # We generate a new P2PKH address to use in the output we're about to create.
 NEW_ADDRESS4=`$CLI getnewaddress`
